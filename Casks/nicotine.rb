@@ -7,7 +7,7 @@ cask "nicotine" do
   desc "Menu bar app that keeps your Mac display awake"
   homepage "https://github.com/svperior-jon/nicotine"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Nicotine.app"
 
