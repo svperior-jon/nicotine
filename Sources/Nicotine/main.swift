@@ -4,6 +4,8 @@ import ServiceManagement
 
 @main
 final class NicotineApp: NSObject, NSApplicationDelegate {
+    private static let launchAtLoginPreferenceKey = "LaunchAtLoginPreferenceSet"
+
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let menu = NSMenu()
     private let stateItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
@@ -24,10 +26,10 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        migrateAutomaticLaunchAtLogin()
         configureMenuBarItem()
         configureMenu()
         startKeepingDisplayAwake()
-        enableLaunchAtLogin()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -146,12 +148,14 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
 
     private func enableLaunchAtLogin() {
         guard SMAppService.mainApp.status != .enabled else {
+            UserDefaults.standard.set(true, forKey: Self.launchAtLoginPreferenceKey)
             refreshMenu()
             return
         }
 
         do {
             try SMAppService.mainApp.register()
+            UserDefaults.standard.set(true, forKey: Self.launchAtLoginPreferenceKey)
         } catch {
             NSLog("Nicotine could not enable launch at login: \(error.localizedDescription)")
         }
@@ -161,17 +165,33 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
 
     private func disableLaunchAtLogin() {
         guard SMAppService.mainApp.status == .enabled else {
+            UserDefaults.standard.set(true, forKey: Self.launchAtLoginPreferenceKey)
             refreshMenu()
             return
         }
 
         do {
             try SMAppService.mainApp.unregister()
+            UserDefaults.standard.set(true, forKey: Self.launchAtLoginPreferenceKey)
         } catch {
             NSLog("Nicotine could not disable launch at login: \(error.localizedDescription)")
         }
 
         refreshMenu()
+    }
+
+    private func migrateAutomaticLaunchAtLogin() {
+        guard !UserDefaults.standard.bool(forKey: Self.launchAtLoginPreferenceKey) else {
+            return
+        }
+
+        if SMAppService.mainApp.status == .enabled {
+            do {
+                try SMAppService.mainApp.unregister()
+            } catch {
+                NSLog("Nicotine could not migrate launch at login: \(error.localizedDescription)")
+            }
+        }
     }
 
 }
