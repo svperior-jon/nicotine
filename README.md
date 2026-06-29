@@ -4,7 +4,7 @@
 
 Tiny macOS menu bar app that keeps your display awake.
 
-Nicotine lives in the menu bar as a cigarette icon. Click it to pause/resume display wakefulness, toggle launch at login, or quit. No window, no dashboard, no ceremony.
+Nicotine lives in the menu bar as a cigarette icon. Click it to pause/resume display wakefulness, toggle launch at login, or quit. No window, no dashboard, no bs.
 
 ## Install
 
