@@ -54,5 +54,6 @@ Install from the tap with:
 
 ```sh
 brew tap svperior-jon/nicotine
+brew trust svperior-jon/nicotine
 brew install --cask nicotine
 ```
