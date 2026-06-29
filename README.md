@@ -35,6 +35,31 @@ dist/Nicotine-1.0.0.zip
 dist/Nicotine-1.0.0.zip.sha256
 ```
 
+## Sign
+
+```sh
+make signed-package SIGN_IDENTITY="Developer ID Application: Superior Digital Partners, LLC (W9XJY8C57G)"
+```
+
+## Notarize
+
+First store Apple notarization credentials in Keychain:
+
+```sh
+xcrun notarytool store-credentials "nicotine-notary" \
+  --apple-id "YOUR_APPLE_ID_EMAIL" \
+  --team-id "W9XJY8C57G" \
+  --password "APP_SPECIFIC_PASSWORD"
+```
+
+Then build a signed, notarized package:
+
+```sh
+make notarized-package \
+  SIGN_IDENTITY="Developer ID Application: Superior Digital Partners, LLC (W9XJY8C57G)" \
+  NOTARY_PROFILE="nicotine-notary"
+```
+
 ## Homebrew Cask
 
 The draft cask lives at:

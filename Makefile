@@ -1,4 +1,4 @@
-.PHONY: build app run clean
+.PHONY: build app run package signed-package notarized-package clean
 
 APP_NAME := Nicotine
 VERSION := 1.0.0
@@ -22,6 +22,12 @@ run: app
 
 package: app
 	./scripts/package-release.sh "$(VERSION)"
+
+signed-package: app
+	SIGN_IDENTITY="$(SIGN_IDENTITY)" ./scripts/package-release.sh "$(VERSION)"
+
+notarized-package: app
+	SIGN_IDENTITY="$(SIGN_IDENTITY)" NOTARY_PROFILE="$(NOTARY_PROFILE)" ./scripts/package-release.sh "$(VERSION)"
 
 clean:
 	rm -rf .build "$(BUILD_DIR)" dist
