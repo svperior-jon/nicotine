@@ -1,7 +1,7 @@
 .PHONY: build app run package signed-package notarized-package clean
 
 APP_NAME := Nicotine
-VERSION := 1.0.0
+VERSION := 1.0.1
 CONFIGURATION := release
 BUILD_DIR := build
 APP_DIR := $(BUILD_DIR)/$(APP_NAME).app
@@ -13,7 +13,9 @@ build:
 app: build
 	rm -rf "$(APP_DIR)"
 	mkdir -p "$(APP_DIR)/Contents/MacOS"
+	mkdir -p "$(APP_DIR)/Contents/Resources"
 	cp "Resources/Info.plist" "$(APP_DIR)/Contents/Info.plist"
+	cp "Resources/Nicotine.icns" "$(APP_DIR)/Contents/Resources/Nicotine.icns"
 	cp "$(BINARY)" "$(APP_DIR)/Contents/MacOS/$(APP_NAME)"
 	chmod +x "$(APP_DIR)/Contents/MacOS/$(APP_NAME)"
 
