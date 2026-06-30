@@ -41,8 +41,9 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
             return
         }
 
-        button.image = nil
-        button.title = "🚬"
+        button.image = Self.makeMenuBarIcon()
+        button.imagePosition = .imageOnly
+        button.title = ""
         button.toolTip = "Nicotine keeps the display awake"
     }
 
@@ -192,6 +193,40 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
                 NSLog("Nicotine could not migrate launch at login: \(error.localizedDescription)")
             }
         }
+    }
+
+    private static func makeMenuBarIcon() -> NSImage {
+        let size = NSSize(width: 22, height: 22)
+        let image = NSImage(size: size)
+        image.lockFocus()
+
+        let emoji = "🚬" as NSString
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 16)
+        ]
+
+        emoji.draw(in: NSRect(x: 1, y: 1, width: 20, height: 20), withAttributes: attributes)
+
+        let glowCenter = NSPoint(x: 16.8, y: 11.6)
+        for radius in stride(from: 5.0, through: 2.0, by: -1.0) {
+            let alpha = CGFloat((6.0 - radius) / 18.0)
+            NSColor.systemRed.withAlphaComponent(alpha).setFill()
+            NSBezierPath(
+                ovalIn: NSRect(
+                    x: glowCenter.x - radius,
+                    y: glowCenter.y - radius,
+                    width: radius * 2,
+                    height: radius * 2
+                )
+            ).fill()
+        }
+
+        NSColor.systemOrange.setFill()
+        NSBezierPath(ovalIn: NSRect(x: glowCenter.x - 1.5, y: glowCenter.y - 1.5, width: 3, height: 3)).fill()
+
+        image.unlockFocus()
+        image.isTemplate = false
+        return image
     }
 
 }
