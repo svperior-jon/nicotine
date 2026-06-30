@@ -1,6 +1,6 @@
 cask "nicotine" do
-  version "1.0.2"
-  sha256 "fc025190fa100bc70a8542bc07b1af2c5c4af257eb502003ecc22bd31df9ba41"
+  version "1.0.3"
+  sha256 "d336a076e12f9ec13a6a6d56a4c6067d1a05cb6c44261a56292fce07861dc133"
 
   url "https://github.com/svperior-jon/nicotine/releases/download/v#{version}/Nicotine-#{version}.zip"
   name "Nicotine"

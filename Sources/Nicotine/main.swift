@@ -200,29 +200,69 @@ final class NicotineApp: NSObject, NSApplicationDelegate {
         let image = NSImage(size: size)
         image.lockFocus()
 
-        let emoji = "🚬" as NSString
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 16)
-        ]
+        NSGraphicsContext.current?.imageInterpolation = .high
 
-        emoji.draw(in: NSRect(x: 1, y: 1, width: 20, height: 20), withAttributes: attributes)
+        let emberCenter = NSPoint(x: 3.7, y: 7.9)
 
-        let glowCenter = NSPoint(x: 16.8, y: 11.6)
-        for radius in stride(from: 5.0, through: 2.0, by: -1.0) {
-            let alpha = CGFloat((6.0 - radius) / 18.0)
-            NSColor.systemRed.withAlphaComponent(alpha).setFill()
+        for radius in stride(from: 6.2, through: 2.2, by: -0.8) {
+            let alpha = CGFloat(0.08 + (6.2 - radius) * 0.04)
+            NSColor(calibratedRed: 1.0, green: 0.08, blue: 0.02, alpha: alpha).setFill()
             NSBezierPath(
                 ovalIn: NSRect(
-                    x: glowCenter.x - radius,
-                    y: glowCenter.y - radius,
+                    x: emberCenter.x - radius,
+                    y: emberCenter.y - radius,
                     width: radius * 2,
                     height: radius * 2
                 )
             ).fill()
         }
 
-        NSColor.systemOrange.setFill()
-        NSBezierPath(ovalIn: NSRect(x: glowCenter.x - 1.5, y: glowCenter.y - 1.5, width: 3, height: 3)).fill()
+        let body = NSBezierPath(roundedRect: NSRect(x: 3.7, y: 5.5, width: 15.4, height: 5.1), xRadius: 1.25, yRadius: 1.25)
+        NSColor(calibratedWhite: 0.98, alpha: 1.0).setFill()
+        body.fill()
+
+        NSColor(calibratedWhite: 0.05, alpha: 0.55).setStroke()
+        body.lineWidth = 0.55
+        body.stroke()
+
+        let filter = NSBezierPath(roundedRect: NSRect(x: 15.2, y: 5.5, width: 4.7, height: 5.1), xRadius: 1.1, yRadius: 1.1)
+        NSColor(calibratedRed: 0.74, green: 0.52, blue: 0.31, alpha: 1.0).setFill()
+        filter.fill()
+
+        NSColor(calibratedWhite: 1.0, alpha: 0.7).setStroke()
+        let bodyHighlight = NSBezierPath()
+        bodyHighlight.lineWidth = 0.65
+        bodyHighlight.move(to: NSPoint(x: 5.9, y: 9.2))
+        bodyHighlight.line(to: NSPoint(x: 14.2, y: 9.2))
+        bodyHighlight.stroke()
+
+        NSColor(calibratedRed: 1.0, green: 0.03, blue: 0.0, alpha: 1.0).setFill()
+        NSBezierPath(ovalIn: NSRect(x: emberCenter.x - 1.9, y: emberCenter.y - 1.9, width: 3.8, height: 3.8)).fill()
+
+        NSColor(calibratedRed: 1.0, green: 0.72, blue: 0.16, alpha: 1.0).setFill()
+        NSBezierPath(ovalIn: NSRect(x: emberCenter.x - 0.85, y: emberCenter.y - 0.85, width: 1.7, height: 1.7)).fill()
+
+        NSColor(calibratedWhite: 0.82, alpha: 0.68).setStroke()
+        let smoke = NSBezierPath()
+        smoke.lineWidth = 1.2
+        smoke.move(to: NSPoint(x: 3.8, y: 10.7))
+        smoke.curve(
+            to: NSPoint(x: 5.9, y: 19.1),
+            controlPoint1: NSPoint(x: 1.5, y: 13.0),
+            controlPoint2: NSPoint(x: 8.7, y: 15.1)
+        )
+        smoke.stroke()
+
+        NSColor(calibratedWhite: 0.78, alpha: 0.48).setStroke()
+        let secondSmoke = NSBezierPath()
+        secondSmoke.lineWidth = 1.0
+        secondSmoke.move(to: NSPoint(x: 8.0, y: 10.6))
+        secondSmoke.curve(
+            to: NSPoint(x: 9.8, y: 18.0),
+            controlPoint1: NSPoint(x: 11.3, y: 12.8),
+            controlPoint2: NSPoint(x: 6.6, y: 15.2)
+        )
+        secondSmoke.stroke()
 
         image.unlockFocus()
         image.isTemplate = false

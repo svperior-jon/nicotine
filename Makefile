@@ -1,7 +1,7 @@
 .PHONY: build app run package signed-package notarized-package clean
 
 APP_NAME := Nicotine
-VERSION := 1.0.2
+VERSION := 1.0.3
 CONFIGURATION := release
 BUILD_DIR := build
 APP_DIR := $(BUILD_DIR)/$(APP_NAME).app
